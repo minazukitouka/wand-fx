@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wand FX — VTS Wand FX</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <canvas id="fx" aria-hidden="true"></canvas>
+
+  <main id="panel">
+    <header>
+      <div>
+        <h1>Wand FX</h1>
+      </div>
+      <span id="status" data-state="offline">尚未連線</span>
+    </header>
+
+    <nav class="panel-tabs" aria-label="設定頁面">
+      <button class="panel-tab" type="button" data-tab-target="settings" aria-selected="true">設定</button>
+      <button class="panel-tab" type="button" data-tab-target="status" aria-selected="false">狀態與輸入</button>
+    </nav>
+
+    <div class="dashboard-columns">
+      <section class="controls tab-panel" data-tab-panel="settings">
+        <h2>連線</h2>
+        <div class="connection-row">
+          <label>VTS WebSocket
+            <input id="endpoint" value="ws://localhost:8001" spellcheck="false">
+          </label>
+          <button id="connect">連接 VTube Studio</button>
+        </div>
+        <h2>杖尖校正</h2>
+          <div class="calibration-actions">
+            <button id="calibrate">開始校正杖尖</button>
+            <button id="marker" class="toggle-button" type="button" role="switch" aria-pressed="true">顯示追蹤：開</button>
+            <button id="clear-calibration">清除校正</button>
+          </div>
+          <h2>特效尺寸</h2>
+          <div class="size-calibration-row">
+            <label class="size-slider">個人倍率 <output id="effect-scale-value">100%</output>
+              <input id="effect-scale" type="range" min="10" max="1000" step="5" value="100">
+            </label>
+          </div>
+          <p id="size-status" class="size-status">杖尖校正後會自動取得尺寸基準</p>
+          <h2>面板顯示</h2>
+          <div class="button-row vertical">
+            <button id="overlay">隱藏設定面板</button>
+          </div>
+          <p class="obs-interaction-hint">提示：在 OBS 中點擊【互動】進行操作</p>
+          <p class="author-credit">作者：<a href="https://x.com/minazukitouka" target="_blank" rel="noopener noreferrer">水無月悠歌</a> × Codex</p>
+        </section>
+
+      <section class="tab-panel" data-tab-panel="status" hidden>
+        <h2>追蹤狀態</h2>
+        <p id="calibration-status" class="hint">尚未校正。從 OBS 的「互動」開啟此面板，按下校正後再到 VTS 點擊魔杖尖端。</p>
+        <pre id="diagnostics">等待 VTS 點擊事件…</pre>
+
+        <h2 class="debug-heading">控制器輸入偵測</h2>
+        <div class="controller-debug-grid">
+          <div id="controller-debug-cross" class="controller-debug-card" data-state="waiting">
+            <span class="controller-symbol green">×</span>
+            <div><strong>ControllerCross</strong><small>等待資料</small></div>
+          </div>
+          <div id="controller-debug-circle" class="controller-debug-card" data-state="waiting">
+            <span class="controller-symbol red">○</span>
+            <div><strong>ControllerCircle</strong><small>等待資料</small></div>
+          </div>
+          <div id="controller-debug-square" class="controller-debug-card" data-state="waiting">
+            <span class="controller-symbol blue">□</span>
+            <div><strong>ControllerSquare</strong><small>等待資料</small></div>
+          </div>
+          <div id="controller-debug-triangle" class="controller-debug-card" data-state="waiting">
+            <span class="controller-symbol yellow">△</span>
+            <div><strong>ControllerTriangle</strong><small>等待資料</small></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <button id="show-panel" hidden>設定</button>
+  <script src="app.js"></script>
+</body>
+</html>
